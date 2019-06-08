@@ -1,3 +1,3 @@
-from src.utils import *
-from src.trainer import Trainer
-from src.tester import Tester
+from model.utils import *
+from model.trainer import Trainer
+from model.tester import Tester
