@@ -1,34 +1,34 @@
 import numpy as np
 import torch
-from torch.nn.modules import Module, LSTM
+import torch.nn as nn
 
 from model.modules import GaussianWindow, MDN
 
 
-class HandwritingGenerator(Module):
+class HandwritingGenerator(nn.Module):
     def __init__(self, alphabet_size, hidden_size, num_window_components, num_mixture_components):
         super(HandwritingGenerator, self).__init__()
         self.alphabet_size = alphabet_size + 1
         # First LSTM layer, takes as input a tuple (x, y, eol)
-        self.lstm1_layer = LSTM(input_size=3,
-                                hidden_size=hidden_size,
-                                batch_first=True)
+        self.lstm1_layer = nn.LSTM(input_size=3,
+                                   hidden_size=hidden_size,
+                                   batch_first=True)
         # Gaussian Window layer
         self.window_layer = GaussianWindow(input_size=hidden_size,
                                            num_components=num_window_components)
         # Second LSTM layer, takes as input the concatenation of the input,
         # the output of the first LSTM layer
         # and the output of the Window layer
-        self.lstm2_layer = LSTM(input_size=3 + hidden_size + alphabet_size + 1,
-                                hidden_size=hidden_size,
-                                batch_first=True)
+        self.lstm2_layer = nn.LSTM(input_size=3 + hidden_size + alphabet_size + 1,
+                                   hidden_size=hidden_size,
+                                   batch_first=True)
 
         # Third LSTM layer, takes as input the concatenation of the output of the first LSTM layer,
         # the output of the second LSTM layer
         # and the output of the Window layer
-        self.lstm3_layer = LSTM(input_size=hidden_size,
-                                hidden_size=hidden_size,
-                                batch_first=True)
+        self.lstm3_layer = nn.LSTM(input_size=hidden_size,
+                                   hidden_size=hidden_size,
+                                   batch_first=True)
 
         # Mixture Density Network Layer
         self.output_layer = MDN(input_size=hidden_size,

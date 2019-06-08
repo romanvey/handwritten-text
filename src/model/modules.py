@@ -1,14 +1,14 @@
 import torch
-from torch.nn.modules import Module, Linear
+import torch.nn as nn
 import torch.nn.functional as F
 
 
-class GaussianWindow(Module):
+class GaussianWindow(nn.Module):
     def __init__(self, input_size, num_components):
         super(GaussianWindow, self).__init__()
         self.input_size = input_size
         self.num_components = num_components
-        self.parameter_layer = Linear(in_features=input_size, out_features=3*num_components)
+        self.parameter_layer = nn.Linear(in_features=input_size, out_features=3*num_components)
 
     def forward(self, input_, onehot, prev_kappa=None):
         abk_hats = self.parameter_layer(input_)
@@ -26,12 +26,12 @@ class GaussianWindow(Module):
         return s.format(name=self.__class__.__name__, **self.__dict__)
 
 
-class MDN(Module):
+class MDN(nn.Module):
     def __init__(self, input_size, num_mixtures):
         super(MDN, self).__init__()
         self.input_size = input_size
         self.num_mixtures = num_mixtures
-        self.parameter_layer = Linear(in_features=input_size, out_features=1 + 6*num_mixtures)
+        self.parameter_layer = nn.Linear(in_features=input_size, out_features=1 + 6*num_mixtures)
 
     def forward(self, input_, bias=None):
         mixture_parameters = self.parameter_layer(input_)
