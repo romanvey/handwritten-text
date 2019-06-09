@@ -23,12 +23,13 @@ class HWGenerator(object):
         phi_data, window_data, kappa_data, stroke_data, coords = self.sample_text(text, bias=bias, style=style_data)
         return coords
 
-    def plot_text(self, text, bias=1., style=None, show=False):
+    def plot_text(self, text, bias=1., style=None, show=False, color="black"):
         coords = self(text, bias=bias, style=style)
 
         fig, ax = plt.subplots(1, 1)
         for stroke in self._split_strokes(self._cumsum(np.array(coords))):
-            plt.plot(stroke[:, 0], -stroke[:, 1])
+            plt.plot(stroke[:, 0], -stroke[:, 1], c=color)
+        ax.set_axis_off()
         ax.set_aspect('equal')
         if show:
             plt.show()
