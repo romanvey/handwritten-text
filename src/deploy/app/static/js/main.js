@@ -1,9 +1,21 @@
 let submit = (e) => {
     e.preventDefault()
-    alert(inputForm.input.value);
-    
-}
+    let text = inputForm.input.value;
+    let style = 0;
+    route = "http://localhost:8000/get_text"
+    body = {text: text, style:style}
 
+    fetch(route, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        mode: 'no-cors',
+        body: body
+    }).then(response => {
+        response.json().then(data => console.log(data));
+    })
+}
 
 let container = document.createElement('div');
 container.className = 'container'

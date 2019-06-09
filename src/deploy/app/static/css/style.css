@@ -36,7 +36,7 @@
     align-items: center;
 
     background: #6200ee;
-    box-shadow: 0 0 0 1em black;
+    box-shadow: black 0 0 0 5px;
 }
 
 .output-wrapper{
