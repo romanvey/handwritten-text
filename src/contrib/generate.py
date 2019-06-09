@@ -75,7 +75,6 @@ class HWGenerator(object):
                 stroke_data += [[mu1[0, g], mu2[0, g], std1[0, g], std2[0, g], rho[0, g], coord[2]]]
 
                 if not force and finish[0, 0] > 0.8:
-                    print('\nFinished sampling!\n')
                     break
 
         coords = np.array(coords)
