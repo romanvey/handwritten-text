@@ -4,8 +4,8 @@ import numpy as np
 import tensorflow as tf
 from collections import namedtuple
 
-from utils import next_experiment_path
-from batch_generator import BatchGenerator
+from .utils import next_experiment_path
+from .batch_generator import BatchGenerator
 
 
 # TODO: add help info

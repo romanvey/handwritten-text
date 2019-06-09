@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 import matplotlib.cm as cm
 import matplotlib.mlab as mlab
 from matplotlib import animation
-import seaborn
+# import seaborn
 from collections import namedtuple
 
 parser = argparse.ArgumentParser()
