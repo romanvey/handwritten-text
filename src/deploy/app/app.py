@@ -21,7 +21,7 @@ def index():
 def api():
     body = request.get_json()
     try:
-        svg_img = model(body["text"], style=body["style"])
+        svg_img = model.plot_text(body["text"], style=body["style"])
         return create_json_response(response={"img": svg_img}, status=HTTPStatus.OK)
     except Exception as e:
         return create_json_response(response=str(e), status=HTTPStatus.BAD_REQUEST)
