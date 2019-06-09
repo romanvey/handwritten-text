@@ -5,6 +5,7 @@ import numpy as np
 import tensorflow as tf
 import matplotlib.pyplot as plt
 from collections import namedtuple
+from io import StringIO
 
 
 class HWGenerator(object):
@@ -20,7 +21,23 @@ class HWGenerator(object):
     def __call__(self, text, bias=1., style=None):
         style_data = self._get_style(style)
         phi_data, window_data, kappa_data, stroke_data, coords = self.sample_text(text, bias=bias, style=style_data)
-        self.generate_img(coords)
+        return coords
+
+    def plot_text(self, text, bias=1., style=None, show=False, color="black"):
+        coords = self(text, bias=bias, style=style)
+
+        fig, ax = plt.subplots(1, 1)
+        for stroke in self._split_strokes(self._cumsum(np.array(coords))):
+            plt.plot(stroke[:, 0], -stroke[:, 1], c=color)
+        ax.set_axis_off()
+        ax.set_aspect('equal')
+        if show:
+            plt.show()
+
+        imgdata = StringIO()
+        fig.savefig(imgdata, format='svg')
+        imgdata.seek(0)
+        return imgdata.read()
 
     def sample_text(self, input_text, bias=1., style=None, force=False):
         text = np.array([self.translation.get(c, 0) for c in input_text])
@@ -82,14 +99,6 @@ class HWGenerator(object):
 
         return phi_data, window_data, kappa_data, stroke_data, coords
 
-    def generate_img(self, coords):
-        fig, ax = plt.subplots(1, 1)
-        for stroke in self._split_strokes(self._cumsum(np.array(coords))):
-            plt.plot(stroke[:, 0], -stroke[:, 1])
-        ax.set_title('Handwriting')
-        ax.set_aspect('equal')
-        plt.show()
-
     def _get_style(self, style):
         if style is not None:
             if style > len(self.styles[0]):
@@ -144,12 +153,12 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     config = {
-        "model_path": "../model/pretrained/model-29",
-        "data_path": "../model/data"
+        "model_path": "pretrained/model-29",
+        "data_path": "."
     }
 
     generator = HWGenerator(config)
-    generator(args.text)
+    generator.plot_text(args.text, show=True)
 
     # import matplotlib.cm as cm
     # import matplotlib.mlab as mlab
