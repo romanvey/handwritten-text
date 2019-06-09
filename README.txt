@@ -1,7 +1,7 @@
-# Flask app
+# Flask app (Run from root directory)
 
 First start:
-docker build -t flask_gunicorn_app_image .
+docker build -t flask_gunicorn_app_image . -f src/deploy/app/Dockerfile
 docker run -d --name flask_gunicorn_app -p 8000:8000 flask_gunicorn_app_image
 
 Start:
@@ -19,5 +19,5 @@ docker rm flask_gunicorn_app
 docker rmi flask_gunicorn_app_image
 docker volume prune -f
 
-# NGNIX app
+# NGNIX app (Run from root directory)
 TODO: write desc
