@@ -6,7 +6,7 @@ Start:
 docker start flask_gunicorn_app
 
 Stop:
-docker start flask_gunicorn_app
+docker stop flask_gunicorn_app
 
 Logs:
 docker logs flask_gunicorn_app
