@@ -13,9 +13,9 @@ class HWGenerator(object):
         self.config = config
         self._init_model()
 
-        with open(os.path.join(config["data_path"], 'translation.pkl'), 'rb') as file:
+        with open(os.path.join(self.config['data_path'], 'translation.pkl'), 'rb') as file:
             self.translation = pickle.load(file)
-        with open(os.path.join(config["data_path"], 'styles.pkl'), 'rb') as file:
+        with open(os.path.join(self.config['data_path'], 'styles.pkl'), 'rb') as file:
             self.styles = pickle.load(file)
 
     def __call__(self, text, bias=1., style=None):
@@ -102,7 +102,7 @@ class HWGenerator(object):
     def _get_style(self, style):
         if style is not None:
             if style > len(self.styles[0]):
-                raise ValueError(f"Requested style [{style}] is not in style list")
+                raise ValueError("Requested style [{}] is not in style list".format(style))
             return [self.styles[0][style], self.styles[1][style]]
         return None
 
@@ -153,8 +153,8 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     config = {
-        "model_path": "pretrained/model-29",
-        "data_path": "."
+        "model_path": "contrib/pretrained/model-29",
+        "data_path": "contrib"
     }
 
     generator = HWGenerator(config)

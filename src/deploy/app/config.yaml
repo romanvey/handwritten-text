@@ -1,4 +1,4 @@
 ---
 model:
-  model_path: /home/vasiko/Vasiko/Vasyl/Programs/Projects/handwritten-text/src/contrib/pretrained/model-29
-  data_path: /home/vasiko/Vasiko/Vasyl/Programs/Projects/handwritten-text/src/contrib
+  model_path: /home/roman/Workspace/projects/handwritten-text/src/contrib/pretrained/model-29
+  data_path: /home/roman/Workspace/projects/handwritten-text/src/contrib
