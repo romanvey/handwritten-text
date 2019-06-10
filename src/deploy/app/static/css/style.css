@@ -1,10 +1,9 @@
 .input-field{
     font-size: 24px;
-    border-radius: 1em;
     border: none;
     padding: .5em 1em;
     width: 65%;
-    box-shadow: black 0px 5px 0px;
+    box-shadow: black 5px 5px 0px;
 }
 
 .input-form{
@@ -16,20 +15,18 @@
 }
 
 .input-submit-btn{
-    margin-top: 5em;
-    font-size: 24px;
-    border-radius: 4em;
+    margin-top: 1em;
+    font-size: 32px;
     border: none;
-    padding: 1em 3em;
+    padding: .5em 2em;
     background: #3700b3;
-    box-shadow: black 0px 5px 0px;
+    box-shadow: black 5px 5px 0px;
     color: white;
     cursor: pointer;
 }
 
 .input-wrapper{
-    width:50%;
-    height: 100%;
+    height: 50vh;
 
     display: flex;
     justify-content: center;
@@ -39,22 +36,57 @@
     box-shadow: black 0 0 0 5px;
 }
 
+.input-radio-container{
+    font-size: 24px;
+    border: none;
+    width: 40%;
+    margin-top: 1em;
+    background: #3700b3;
+    box-shadow: black 5px 5px 0px;
+    color: white;
+    display: flex;
+    justify-content: space-around;
+}
+
+.input-radio-btn{
+    display: none;
+}
+
+.input-radio-label{
+    cursor: pointer;
+    width: 100%;
+    text-align: center;
+    height: 2em;
+    line-height: 2em;
+}
+
+.input-radio-btn:checked + label{
+    background: #2a008a;
+}
+
 .output-wrapper{
-    width:50%;
-    height: 100%;
+    height: 50vh;
 
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
+.output-img{
+    width: 100%;
+}
+
+.output-img-wrapper{
+    max-width: 80%;
+    min-width: 50%;
+}
 
 
 .container{
     width:100%;
     height: 100vh;
     display: flex;
-    flex-flow: row;
+    flex-flow: column;
 }
 
 

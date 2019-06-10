@@ -13,8 +13,16 @@ let submit = (e) => {
         mode: 'no-cors',
         body: body
     }).then(response => {
-        response.json().then(data => console.log(data));
+        response.json().then(data => renderImage(data.img_link));
     })
+}
+
+let renderImage = (img_link) => {
+    let img = document.createElement('img')
+    img.className = "output-img"
+    img.src = img_link
+    outputImgWrapper.innerHTML = null;
+    outputImgWrapper.appendChild(img)
 }
 
 let container = document.createElement('div');
@@ -38,10 +46,36 @@ inputBtn.type = 'submit';
 inputBtn.className = 'input-submit-btn';
 inputBtn.innerText = 'Generate!'
 
+let inputRadioContainer = document.createElement('div');
+inputRadioContainer.className = 'input-radio-container';
+
+["casual", "italic", "bold"].forEach((name) => {
+    let btn = document.createElement('input')
+    btn.type = 'radio'
+    btn.id = name
+    btn.className = 'input-radio-btn'
+    btn.name = "text-style"
+    btn.value = name
+    inputRadioContainer.appendChild(btn)
+
+    let btnLabel = document.createElement('label')
+    btnLabel.className = 'input-radio-label'
+    btnLabel.innerText = name
+    btnLabel.htmlFor = name
+    inputRadioContainer.appendChild(btnLabel)
+})
+inputRadioContainer.firstChild.checked = true
+
+
 let outputWrapper = document.createElement('div');
 outputWrapper.className = 'output-wrapper'
 
+let outputImgWrapper = document.createElement('div');
+outputImgWrapper.className = 'output-img-wrapper'
+
+outputWrapper.appendChild(outputImgWrapper)
 inputForm.appendChild(inputField)
+inputForm.appendChild(inputRadioContainer)
 inputForm.appendChild(inputBtn)
 inputWrapper.appendChild(inputForm)
 container.appendChild(inputWrapper)
