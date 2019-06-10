@@ -3,13 +3,13 @@ import json
 from http import HTTPStatus
 from flask import Flask, render_template, request, Response,  jsonify
 
-from contrib.generate import HWGenerator
+# from contrib.generate import HWGenerator
 
 application = Flask(__name__)
 
-with open("config.yaml", "r") as f:
-    config = yaml.load(f)
-model = HWGenerator(config["model"])
+# with open("config.yaml", "r") as f:
+#     config = yaml.load(f)
+# model = HWGenerator(config["model"])
 
 
 @application.route("/")
