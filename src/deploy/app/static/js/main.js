@@ -20,7 +20,8 @@ const display_svg = (svg) => {
     let img = document.createElement('div');
     img.className = "output-img";
     img.innerHTML = svg;
-    outputImgWrapper.appendChild(img)
+    outputImgWrapper.innerHTML = '';
+    outputImgWrapper.appendChild(img);
 };
 
 let container = document.createElement('div');
