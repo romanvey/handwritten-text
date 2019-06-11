@@ -46,4 +46,4 @@ bash remove.sh
 bash local_build.sh
 ```
 
-##### Developed by: useless Vasyl Borsuk, useless Volodymyr Zabulskyy and useless Roman Vey
+##### Developed by: Vasyl Borsuk, Volodymyr Zabulskyy and Roman Vey
