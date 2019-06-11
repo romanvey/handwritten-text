@@ -1,4 +1,5 @@
 const submit = (e) => {
+    displayLoadingAnimation();
     e.preventDefault();
     let text = inputForm.input.value;
     let style = 0;
@@ -12,11 +13,19 @@ const submit = (e) => {
         },
         body: JSON.stringify(body)
     }).then(response => {
-        if (response.ok) response.json().then(data => display_svg(data["img"]));
+        if (response.ok) response.json().then(data => displaySvg(data["img"]));
     })
 };
 
-const display_svg = (svg) => {
+const displayLoadingAnimation = () => {
+    let loadingAnimation = document.createElement('div');
+    loadingAnimation.className = "lds-dual-ring";
+
+    outputImgWrapper.innerHTML = '';
+    outputImgWrapper.appendChild(loadingAnimation); 
+}
+
+const displaySvg = (svg) => {
     let img = document.createElement('div');
     img.className = "output-img";
     img.innerHTML = svg;
