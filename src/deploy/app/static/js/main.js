@@ -87,6 +87,7 @@ const createForm = () => {
         btn.className = 'input-radio-btn';
         btn.name = 'text-style';
         btn.value = value;
+        btn.id = name;
         return btn;
     };
     const createRadioButtonLabel = (name) => {
