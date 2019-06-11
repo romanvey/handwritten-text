@@ -6,7 +6,6 @@ const submit = (e) => {
     displayLoadingAnimation();
     e.preventDefault();
     let text = e.target.input.value;
-    e.target.input.value = '';
     let style = e.target.querySelector('input[type=radio]:checked').value;
     let request = {text: text, style: style};
 
@@ -85,7 +84,6 @@ const createForm = () => {
     const createRadioButton = (name, value) => {
         let btn = document.createElement('input');
         btn.type = 'radio';
-        btn.id = name;
         btn.className = 'input-radio-btn';
         btn.name = 'text-style';
         btn.value = value;
@@ -114,9 +112,6 @@ const createForm = () => {
     let inputForm = document.createElement('form');
     inputForm.setAttribute('autocomplete', 'off'); 
     inputForm.className = 'input-form';
-    inputForm.addEventListener('keypress', (e) => {
-        if (e.keyCode === 13) submit(e);
-    }, false);
     inputForm.onsubmit = (e) => submit(e);
     inputForm.appendChild(createInputField());
     inputForm.appendChild(createRadioButtons(['Child', 'Casual', 'Doctor']));
