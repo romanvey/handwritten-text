@@ -3,9 +3,12 @@ window.onload = () => {
 };
 
 const submit = (e) => {
-    displayLoadingAnimation();
     e.preventDefault();
+
     let text = e.target.input.value;
+    if (!text) return;
+    displayLoadingAnimation();
+
     let style = e.target.querySelector('input[type=radio]:checked').value;
     let request = {text: text, style: style};
 
@@ -82,6 +85,14 @@ const createForm = () => {
         inputBtn.innerText = 'Generate!';
         return inputBtn;
     };
+    const createRangeSlider = () => {
+        let inputSlider = document.createElement('input');
+        inputSlider.type = 'range';
+        inputSlider.className = 'input-range-slider';
+        inputSlider.setAttribute('min', 0);
+        inputSlider.setAttribute('max', 100);
+        return inputSlider;
+    }
     const createRadioButton = (name, value) => {
         let btn = document.createElement('input');
         btn.type = 'radio';
@@ -117,6 +128,7 @@ const createForm = () => {
     inputForm.onsubmit = (e) => submit(e);
     inputForm.appendChild(createInputField());
     inputForm.appendChild(createRadioButtons(['Child', 'Casual', 'Doctor']));
+    // inputForm.appendChild(createRangeSlider());
     inputForm.appendChild(createButton());
     return inputForm;
 };
