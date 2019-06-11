@@ -61,7 +61,7 @@ class BatchGenerator(object):
         # because lines are of different length, we store them in python array (not numpy)
         dataset = temp
         labels = np.load(os.path.join('data', 'labels.npy'))
-        with open(os.path.join('data', 'translation.pkl'), 'rb') as file:
+        with open(os.path.join('contrib', 'translation.pkl'), 'rb') as file:
             translation = pickle.load(file)
 
         return dataset, labels, translation
