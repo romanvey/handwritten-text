@@ -74,11 +74,17 @@
 
 .output-img{
     width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
 }
 
 .output-img-wrapper{
     max-width: 80%;
     min-width: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 
@@ -94,21 +100,20 @@ body{
     margin: 0;
 }
 
-
 .lds-dual-ring {
     display: inline-block;
-    width: 64px;
-    height: 64px;
+    width: 256px;
+    height: 256px;
   }
   
   .lds-dual-ring:after {
     content: " ";
     display: block;
-    width: 46px;
-    height: 46px;
+    width: 184px;
+    height: 184px;
     margin: 1px;
     border-radius: 50%;
-    border: 5px solid #000;
+    border: 20px solid #000;
     border-color: #000 transparent #000 transparent;
     animation: lds-dual-ring 1.2s linear infinite;
   }
