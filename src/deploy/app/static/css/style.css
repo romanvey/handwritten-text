@@ -140,11 +140,14 @@ body {
     }
 }
 
+.input-range-slider{
+    width: 60%;
+    margin-top: 40px;
+}
+
 input[type=range] {
     height: 38px;
     -webkit-appearance: none;
-    width: 60%;
-    margin-top: 40px;
     background-color: transparent;
 }
 
