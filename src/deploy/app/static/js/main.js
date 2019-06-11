@@ -1,19 +1,23 @@
+window.onload = () => {
+    initPage();
+};
+
 const submit = (e) => {
     displayLoadingAnimation();
     e.preventDefault();
-    let text = inputForm.input.value;
-    let style = 0;
-    route = "/api";
-    body = {text: text, style: style};
+    let text = e.target.input.value;
+    let style = e.target.querySelector("input[type=radio]:checked").value;
+    let request = {text: text, style: style};
 
-    fetch(route, {
+    fetch("/api", {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify(body)
+        body: JSON.stringify(request)
     }).then(response => {
         if (response.ok) response.json().then(data => displaySvg(data["img"]));
+        else alert("Error")
     })
 };
 
@@ -21,75 +25,96 @@ const displayLoadingAnimation = () => {
     let loadingAnimation = document.createElement('div');
     loadingAnimation.className = "lds-dual-ring";
 
+    let outputImgWrapper = document.getElementById("outputField");
     outputImgWrapper.innerHTML = '';
     outputImgWrapper.appendChild(loadingAnimation); 
-}
+};
 
-const displaySvg = (svg) => {
+const displaySvg = svg => {
     let img = document.createElement('div');
     img.className = "output-img";
     img.innerHTML = svg;
+
+    let outputImgWrapper = document.getElementById("outputField");
     outputImgWrapper.innerHTML = '';
     outputImgWrapper.appendChild(img);
 };
 
-let container = document.createElement('div');
-container.className = 'container';
-
-let inputWrapper = document.createElement('div');
-inputWrapper.className = 'input-wrapper';
-
-let inputForm = document.createElement('form');
-inputForm.className = 'input-form';
-inputForm.onsubmit = (e) => {
-    submit(e)
+const initPage = () => {
+    let container = document.createElement('div');
+    container.className = 'container';
+    container.appendChild(createInput());
+    container.appendChild(createOutput());
+    document.body.appendChild(container);
 };
 
-let inputField = document.createElement('input');
-inputField.type = 'text';
-inputField.className = 'input-field';
-inputField.placeholder = 'Write your masterpiece here';
-inputField.name = 'input';
+const createInput = () => {
+    let inputWrapper = document.createElement('div');
+    inputWrapper.className = 'input-wrapper';
+    inputWrapper.appendChild(createForm());
+    return inputWrapper;
+};
 
-let inputBtn = document.createElement('button');
-inputBtn.type = 'submit';
-inputBtn.className = 'input-submit-btn';
-inputBtn.innerText = 'Generate!';
+const createOutput = () => {
+    let outputWrapper = document.createElement('div');
+    outputWrapper.className = 'output-wrapper';
+    let outputImgWrapper = document.createElement('div');
+    outputImgWrapper.className = 'output-img-wrapper';
+    outputImgWrapper.id = "outputField";
+    outputWrapper.appendChild(outputImgWrapper);
+    return outputWrapper;
+};
 
-let inputRadioContainer = document.createElement('div');
-inputRadioContainer.className = 'input-radio-container';
+const createForm = () => {
+    const createInputField = () => {
+        let inputField = document.createElement('input');
+        inputField.type = 'text';
+        inputField.className = 'input-field';
+        inputField.placeholder = 'Write your masterpiece here';
+        inputField.name = 'input';
+        return inputField;
+    };
+    const createButton = () => {
+        let inputBtn = document.createElement('button');
+        inputBtn.type = 'submit';
+        inputBtn.className = 'input-submit-btn';
+        inputBtn.innerText = 'Generate!';
+        return inputBtn;
+    };
+    const createRadioButton = (name, value) => {
+        let btn = document.createElement('input');
+        btn.type = 'radio';
+        btn.id = name;
+        btn.className = 'input-radio-btn';
+        btn.name = "text-style";
+        btn.value = value;
+        return btn;
+    };
+    const createRadioButtonLabel = (name) => {
+        let btnLabel = document.createElement('label');
+        btnLabel.className = 'input-radio-label';
+        btnLabel.innerText = name;
+        btnLabel.htmlFor = name;
+        return btnLabel;
+    };
+    const createRadioButtons = (names) => {
+        let inputRadioContainer = document.createElement('div');
+        inputRadioContainer.className = 'input-radio-container';
+        names.forEach((name, idx) => {
+            let btn = createRadioButton(name, idx);
+            inputRadioContainer.appendChild(btn);
+            let btnLabel = createRadioButtonLabel(name);
+            inputRadioContainer.appendChild(btnLabel);
+        });
+        inputRadioContainer.firstChild.checked = true;
+        return inputRadioContainer;
+    };
 
-["casual", "italic", "bold"].forEach((name) => {
-    let btn = document.createElement('input');
-    btn.type = 'radio';
-    btn.id = name;
-    btn.className = 'input-radio-btn';
-    btn.name = "text-style";
-    btn.value = name;
-    inputRadioContainer.appendChild(btn);
-
-    let btnLabel = document.createElement('label');
-    btnLabel.className = 'input-radio-label';
-    btnLabel.innerText = name;
-    btnLabel.htmlFor = name;
-    inputRadioContainer.appendChild(btnLabel)
-});
-inputRadioContainer.firstChild.checked = true;
-
-
-let outputWrapper = document.createElement('div');
-outputWrapper.className = 'output-wrapper';
-
-let outputImgWrapper = document.createElement('div');
-outputImgWrapper.className = 'output-img-wrapper';
-
-outputWrapper.appendChild(outputImgWrapper);
-inputForm.appendChild(inputField);
-inputForm.appendChild(inputRadioContainer);
-inputForm.appendChild(inputBtn);
-inputWrapper.appendChild(inputForm);
-container.appendChild(inputWrapper);
-
-container.appendChild(outputWrapper);
-document.body.appendChild(container);
-
+    let inputForm = document.createElement('form');
+    inputForm.className = 'input-form';
+    inputForm.onsubmit = (e) => submit(e);
+    inputForm.appendChild(createInputField());
+    inputForm.appendChild(createRadioButtons(["casual", "italic", "bold"]));
+    inputForm.appendChild(createButton());
+    return inputForm;
+};
