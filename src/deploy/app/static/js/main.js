@@ -34,6 +34,7 @@ const displaySvg = svg => {
     let img = document.createElement('div');
     img.className = 'output-img';
     img.innerHTML = svg;
+    img.querySelector('defs').remove();
 
     let outputImgWrapper = document.getElementById('outputField');
     outputImgWrapper.innerHTML = '';
