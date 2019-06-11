@@ -2,18 +2,19 @@ let submit = (e) => {
     e.preventDefault()
     let text = inputForm.input.value;
     let style = 0;
-    route = "http://localhost:8000/get_text"
+    route = "/api"
     body = {text: text, style:style}
+    console.log(body)
 
     fetch(route, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
-        mode: 'no-cors',
         body: body
     }).then(response => {
-        response.json().then(data => renderImage(data.img_link));
+        console.log(response);
+        response.json().then(data => console.log(data));
     })
 }
 
