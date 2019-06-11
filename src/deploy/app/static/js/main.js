@@ -10,7 +10,8 @@ const submit = (e) => {
     displayLoadingAnimation();
 
     let style = e.target.querySelector('input[type=radio]:checked').value;
-    let request = {text: text, style: style};
+    let bias = e.target.querySelector('input[type=range]').value;
+    let request = {text: text, style: style, bias: bias};
 
     fetch('/api', {
         method: 'POST',
@@ -128,7 +129,7 @@ const createForm = () => {
     inputForm.onsubmit = (e) => submit(e);
     inputForm.appendChild(createInputField());
     inputForm.appendChild(createRadioButtons(['Child', 'Casual', 'Doctor']));
-    // inputForm.appendChild(createRangeSlider());
+    inputForm.appendChild(createRangeSlider());
     inputForm.appendChild(createButton());
     return inputForm;
 };
