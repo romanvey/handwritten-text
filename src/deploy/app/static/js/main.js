@@ -6,36 +6,37 @@ const submit = (e) => {
     displayLoadingAnimation();
     e.preventDefault();
     let text = e.target.input.value;
-    let style = e.target.querySelector("input[type=radio]:checked").value;
+    e.target.input.value = '';
+    let style = e.target.querySelector('input[type=radio]:checked').value;
     let request = {text: text, style: style};
 
-    fetch("/api", {
+    fetch('/api', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
         body: JSON.stringify(request)
     }).then(response => {
-        if (response.ok) response.json().then(data => displaySvg(data["img"]));
-        else alert("Error")
+        if (response.ok) response.json().then(data => displaySvg(data['img']));
+        else console.log('Server unavaliable :(')
     })
 };
 
 const displayLoadingAnimation = () => {
     let loadingAnimation = document.createElement('div');
-    loadingAnimation.className = "lds-dual-ring";
+    loadingAnimation.className = 'lds-dual-ring';
 
-    let outputImgWrapper = document.getElementById("outputField");
+    let outputImgWrapper = document.getElementById('outputField');
     outputImgWrapper.innerHTML = '';
     outputImgWrapper.appendChild(loadingAnimation); 
 };
 
 const displaySvg = svg => {
     let img = document.createElement('div');
-    img.className = "output-img";
+    img.className = 'output-img';
     img.innerHTML = svg;
 
-    let outputImgWrapper = document.getElementById("outputField");
+    let outputImgWrapper = document.getElementById('outputField');
     outputImgWrapper.innerHTML = '';
     outputImgWrapper.appendChild(img);
 };
@@ -60,7 +61,7 @@ const createOutput = () => {
     outputWrapper.className = 'output-wrapper';
     let outputImgWrapper = document.createElement('div');
     outputImgWrapper.className = 'output-img-wrapper';
-    outputImgWrapper.id = "outputField";
+    outputImgWrapper.id = 'outputField';
     outputWrapper.appendChild(outputImgWrapper);
     return outputWrapper;
 };
@@ -86,7 +87,7 @@ const createForm = () => {
         btn.type = 'radio';
         btn.id = name;
         btn.className = 'input-radio-btn';
-        btn.name = "text-style";
+        btn.name = 'text-style';
         btn.value = value;
         return btn;
     };
@@ -111,10 +112,14 @@ const createForm = () => {
     };
 
     let inputForm = document.createElement('form');
+    inputForm.setAttribute('autocomplete', 'off'); 
     inputForm.className = 'input-form';
+    inputForm.addEventListener('keypress', (e) => {
+        if (e.keyCode === 13) submit(e);
+    }, false);
     inputForm.onsubmit = (e) => submit(e);
     inputForm.appendChild(createInputField());
-    inputForm.appendChild(createRadioButtons(["casual", "italic", "bold"]));
+    inputForm.appendChild(createRadioButtons(['Child', 'Casual', 'Doctor']));
     inputForm.appendChild(createButton());
     return inputForm;
 };
