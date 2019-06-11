@@ -1,4 +1,4 @@
 ---
 model:
-  model_path: ../../contrib/pretrained/model-29
-  data_path: ../../contrib
+  model_path: contrib/pretrained/model-29
+  data_path: contrib

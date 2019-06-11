@@ -16,26 +16,10 @@ def index():
     return render_template("index.html")
 
 
-# TODO: remove
-@application.route('/get_text', methods=['POST'])
-def get_text():
-    request_data = request.get_json()
-    if request.method == 'POST':
-        text = "haha"
-        style = "style"
-    img = generate_hw_text(text, style)
-    response = jsonify({'img_link':img})
-    response.headers.add('Access-Control-Allow-Origin', 'http://localhost:8000')
-    return response
-
-def generate_hw_text(text, style):
-    link = "https://txt.static.1001fonts.net/txt/dHRmLjcyLjAwMDAwMC5RWFIwWVdOcklHOW1JSFJvWlNCRGRXTjFiV0psY25NLC4w/attack-of-the-cucumbers.regular.png"
-    return link
-
 @application.route('/api', methods=['POST'])
 def api():
-    body = request.get_json()
     try:
+        body = request.get_json()
         svg_img = model.plot_text(body["text"], style=int(body["style"]))
         return create_json_response(response={"img": svg_img}, status=HTTPStatus.OK)
     except Exception as e:
@@ -44,7 +28,6 @@ def api():
 
 def create_json_response(status, response):
     response = Response(response=json.dumps(response), status=status, mimetype='application/json')
-    response.headers.add('Access-Control-Allow-Origin', 'http://localhost:8000')
     return response
 
 
