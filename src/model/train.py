@@ -1,14 +1,11 @@
 import os
 import shutil
 import argparse
-import numpy as np
 import tensorflow as tf
-from collections import namedtuple
 
 from .dataset import BatchGenerator
 from .model import create_graph
 
-epsilon = 1e-8
 
 def get_args():
     parser = argparse.ArgumentParser()
@@ -20,16 +17,10 @@ def get_args():
     parser.add_argument('--lstm_layers', dest='lstm_layers', default=3, type=int)
     parser.add_argument('--units_per_layer', dest='units', default=400, type=int)
     parser.add_argument('--restore', dest='restore', default=None, type=str)
-    args = parser.parse_args()
-
+    return parser.parse_args()
 
 
 def next_experiment_path():
-    """
-    creates paths for new experiment
-    returns path for next experiment
-    """
-
     idx = 0
     path = os.path.join('summary', 'experiment-{}')
     while os.path.exists(path.format(idx)):
@@ -42,7 +33,7 @@ def next_experiment_path():
     return path
 
 
-def main():
+def train():
     args = get_args()
     restore_model = args.restore
     seq_len = args.seq_len
@@ -89,4 +80,4 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    train()
