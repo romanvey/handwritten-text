@@ -107,8 +107,6 @@ class HWGenerator(object):
         return None
 
     def _init_model(self):
-        # sess_config = tf.ConfigProto(device_count={'GPU': 0})
-        # self.sess = tf.Session(config=sess_config)
         self.sess = tf.Session()
         saver = tf.train.import_meta_graph(self.config["model_path"] + '.meta')
         saver.restore(self.sess, self.config["model_path"])
@@ -159,49 +157,3 @@ if __name__ == '__main__':
 
     generator = HWGenerator(config)
     generator.plot_text(args.text, show=True)
-
-    # import matplotlib.cm as cm
-    # import matplotlib.mlab as mlab
-    # from matplotlib import animation
-    # import seaborn
-    #
-    #
-    # if args.animation:
-    #     epsilon = 1e-8
-    #     minx, maxx = np.min(strokes[:, 0]), np.max(strokes[:, 0])
-    #     miny, maxy = np.min(strokes[:, 1]), np.max(strokes[:, 1])
-    #
-    #     strokes = np.array(stroke_data)
-    #     strokes[:, :2] = np.cumsum(strokes[:, :2], axis=0)
-    #
-    #     fig, ax = plt.subplots(1, 1, frameon=False, figsize=(2 * (maxx - minx + 2) / (maxy - miny + 1), 2))
-    #     ax.set_xlim(minx - 1., maxx + 1.)
-    #     ax.set_ylim(-maxy - 0.5, -miny + 0.5)
-    #     ax.set_aspect('equal')
-    #     ax.axis('off')
-    #     # ax.hold(True)
-    #
-    #     plt.draw()
-    #     plt.show(False)
-    #
-    #     background = fig.canvas.copy_from_bbox(ax.bbox)
-    #
-    #     sumed = cumsum(coords)
-    #
-    #     def _update(i):
-    #         c1, c2 = sumed[i: i + 2]
-    #         fig.canvas.restore_region(background)
-    #         if c1[2] == 1. and c2[2] == 1.:
-    #             line, = ax.plot([c2[0], c2[0]], [-c2[1], -c2[1]])
-    #         elif c1[2] != 1.:
-    #             line, = ax.plot([c1[0], c2[0]], [-c1[1], -c2[1]])
-    #         else:
-    #             line, = ax.plot([c1[0], c1[0]], [-c1[1], -c1[1]])
-    #         fig.canvas.blit(ax.bbox)
-    #         return line,
-    #
-    #     anim = animation.FuncAnimation(fig, _update, frames=len(sumed) - 2,
-    #                                    interval=16, blit=True, repeat=False)
-    #     if args.save is not None:
-    #         anim.save(args.save, fps=60, extra_args=['-vcodec', 'libx264'])
-    #     plt.show()
