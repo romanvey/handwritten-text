@@ -1,4 +1,4 @@
 ---
 model:
-  model_path: contrib/pretrained/model-29
+  model_path: contrib/pretrained/best
   data_path: contrib

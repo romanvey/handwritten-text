@@ -1,4 +1,8 @@
 # Handwritten text generator
+
+This work is based on [Generating Sequences With Recurrent Neural Networks](https://arxiv.org/abs/1308.0850) by Alex Graves.
+This model was trained on `IAM On-Line Handwriting Database` ([data/original-xml-part.tar.gz](http://www.fki.inf.unibe.ch/databases/iam-on-line-handwriting-database/download-the-iam-on-line-handwriting-database) file)
+
 You can start your server everywhere with simple commands
 
 ## Requirements
