@@ -1,4 +1,10 @@
+from collections import namedtuple
+
+import numpy as np
 import tensorflow as tf
+
+EPSILON = 1e-8
+
 
 class WindowLayer(object):
     def __init__(self, num_mixtures, sequence, num_letters):
@@ -22,16 +28,13 @@ class WindowLayer(object):
             b = tf.expand_dims(beta, axis=2)
             k = tf.expand_dims(k + kappa, axis=2)
 
-            phi = tf.exp(-np.square(self.u_range + k) * b) * a  # [batch_size, mixtures, length]
-            phi = tf.reduce_sum(phi, axis=1, keep_dims=True)  # [batch_size, 1, length]
+            phi = tf.exp(-np.square(self.u_range + k) * b) * a
+            phi = tf.reduce_sum(phi, axis=1, keep_dims=True)
 
-            # whether or not network finished generating sequence
             finish = tf.cast(phi[:, 0, -1] > tf.reduce_max(phi[:, 0, :-1], axis=1), tf.float32)
 
-            return tf.squeeze(tf.matmul(phi, self.sequence), axis=1), \
-                   tf.squeeze(k, axis=2), \
-                   tf.squeeze(phi, axis=1), \
-                   tf.expand_dims(finish, axis=1)
+            return tf.squeeze(tf.matmul(phi, self.sequence), axis=1),  tf.squeeze(k, axis=2), \
+                   tf.squeeze(phi, axis=1), tf.expand_dims(finish, axis=1)
 
     @property
     def output_size(self):
@@ -97,11 +100,6 @@ class RNNModel(tf.nn.rnn_cell.RNNCell):
         return [self.num_units]
 
     def call(self, inputs, state, **kwargs):
-        # state[-3] --> window
-        # state[-2] --> k
-        # state[-1] --> finish
-        # state[2n] --> h
-        # state[2n+1] --> c
         window, k, finish = state[-3:]
         output_state = []
         prev_output = []
@@ -171,7 +169,7 @@ def create_graph(num_letters, batch_size,
                         ep = es * e + (1. - es) * (1. - e)
                         rp = tf.reduce_sum(pi * n, axis=1)
 
-                        loss = tf.reduce_mean(-tf.log(rp + epsilon) - tf.log(ep + epsilon))
+                        loss = tf.reduce_mean(-tf.log(rp + EPSILON) - tf.log(ep + EPSILON))
 
                     if generate:
                         # save params for easier model loading and prediction
@@ -200,15 +198,16 @@ def create_graph(num_letters, batch_size,
                     train_step = optimizer.apply_gradients(zip(grad, var), global_step=steps)
 
                 with tf.name_scope('summary'):
-                    # TODO: add more summaries
                     summary = tf.summary.merge([
                         tf.summary.scalar('loss', loss)
                     ])
 
-                return namedtuple('Model', ['coordinates', 'sequence', 'reset_states', 'reset', 'loss', 'train_step',
-                                            'learning_rate', 'summary'])(
-                           coordinates, sequence, reset_states, reset, loss, train_step, learning_rate, summary
-                       )
+                return namedtuple(
+                    'Model', ['coordinates', 'sequence', 'reset_states', 'reset',
+                              'loss', 'train_step','learning_rate', 'summary'])(
+                    coordinates, sequence, reset_states, reset, loss, train_step, learning_rate, summary
+                )
+
         train_model = create_model(generate=None)
         _ = create_model(generate=True)  # just to create ops for generation
 
