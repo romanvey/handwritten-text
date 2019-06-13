@@ -4,13 +4,6 @@ import pickle
 import numpy as np
 import xml.etree.cElementTree as ElementTree
 
-"""
-- all points:
->> [[x1, y1, e1], ..., [xn, yn, en]]
-- indexed values
->> [h1, ... hn]
-"""
-
 
 def distance(p1, p2, axis=None):
     return np.sqrt(np.sum(np.square(p1 - p2), axis=axis))

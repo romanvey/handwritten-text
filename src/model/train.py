@@ -5,7 +5,7 @@ import tensorflow as tf
 from collections import namedtuple
 
 from .utils import next_experiment_path
-from .batch_generator import BatchGenerator
+from .dataset import BatchGenerator
 
 
 # TODO: add help info
