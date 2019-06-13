@@ -5,15 +5,15 @@ import numpy as np
 import xml.etree.cElementTree as ElementTree
 
 
-def distance(p1, p2, axis=None):
+def l2dist(p1, p2, axis=None):
     return np.sqrt(np.sum(np.square(p1 - p2), axis=axis))
 
 
-def clear_middle(pts):
+def remove_middle(pts):
     to_remove = set()
     for i in range(1, len(pts) - 1):
         p1, p2, p3 = pts[i - 1: i + 2, :2]
-        dist = distance(p1, p2) + distance(p2, p3)
+        dist = l2dist(p1, p2) + l2dist(p2, p3)
         if dist > 1500:
             to_remove.add(i)
     npts = []
@@ -23,15 +23,15 @@ def clear_middle(pts):
     return np.array(npts)
 
 
-def separate(pts):
+def split(pts):
     seps = []
     for i in range(0, len(pts) - 1):
-        if distance(pts[i], pts[i+1]) > 600:
+        if l2dist(pts[i], pts[i + 1]) > 600:
             seps += [i + 1]
     return [pts[b:e] for b, e in zip([0] + seps, seps + [len(pts)])]
 
 
-def main():
+def run():
     data = []
     charset = set()
 
@@ -55,11 +55,11 @@ def main():
                     pts = np.array([[int(p.get('x')), int(p.get('y')), 0] for p in ps])
                     pts[-1, 2] = 1
 
-                    pts = clear_middle(pts)
+                    pts = remove_middle(pts)
                     if len(pts) == 0:
                         continue
 
-                    seps = separate(pts)
+                    seps = split(pts)
                     for pss in seps:
                         if len(seps) > 1 and len(pss) == 1:
                             continue
@@ -120,4 +120,4 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    run()
