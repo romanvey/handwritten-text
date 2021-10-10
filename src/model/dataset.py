@@ -21,11 +21,13 @@ class BatchGenerator(object):
         self.num_letters = len(self.translation)
         # pad all labels to be the same length
         max_len = max(map(lambda x: len(x), labels))
-        self.labels = np.array([np.concatenate([np.eye(self.num_letters, dtype=np.float32)[l],
-                                                np.zeros((max_len - len(l) + 1, self.num_letters),
-                                                         dtype=np.float32)],
-                                               axis=0)
-                                for l in labels])
+        self.labels = np.array([
+            np.concatenate([
+                np.eye(self.num_letters, dtype=np.float32)[l],
+                np.zeros((max_len - len(l) + 1, self.num_letters), dtype=np.float32)
+            ], axis=0)
+            for l in labels
+        ])
         self.max_len = self.labels.shape[1]
         self.indices = np.random.choice(len(self.dataset), size=(batch_size,), replace=False)
         self.batches = np.zeros((batch_size,), dtype=np.int32)

@@ -42,10 +42,14 @@ def train():
     batches_per_epoch = 1000
 
     batch_generator = BatchGenerator(batch_size, seq_len)
-    g, vs = create_graph(batch_generator.num_letters, batch_size,
-                         num_units=args.units, lstm_layers=args.lstm_layers,
-                         window_mixtures=args.window_mixtures,
-                         output_mixtures=args.output_mixtures)
+    g, vs = create_graph(
+        batch_generator.num_letters,
+        batch_size,
+        num_units=args.units,
+        lstm_layers=args.lstm_layers,
+        window_mixtures=args.window_mixtures,
+        output_mixtures=args.output_mixtures
+    )
 
     with tf.Session(graph=g) as sess:
         model_saver = tf.train.Saver(max_to_keep=2)
@@ -60,8 +64,10 @@ def train():
             epoch = 0
 
         summary_writer = tf.summary.FileWriter(experiment_path, graph=g, flush_secs=10)
-        summary_writer.add_session_log(tf.SessionLog(status=tf.SessionLog.START),
-                                       global_step=epoch * batches_per_epoch)
+        summary_writer.add_session_log(
+            tf.SessionLog(status=tf.SessionLog.START),
+            global_step=epoch * batches_per_epoch
+        )
 
         for e in range(epoch, num_epoch):
             print('\nEpoch {}'.format(e))
@@ -69,9 +75,12 @@ def train():
                 coords, seq, reset, needed = batch_generator.next_batch()
                 if needed:
                     sess.run(vs.reset_states, feed_dict={vs.reset: reset})
-                l, s, _ = sess.run([vs.loss, vs.summary, vs.train_step],
-                                   feed_dict={vs.coordinates: coords,
-                                              vs.sequence: seq})
+                l, s, _ = sess.run(
+                    [vs.loss, vs.summary, vs.train_step],
+                    feed_dict={
+                        vs.coordinates: coords,
+                        vs.sequence: seq}
+                )
                 summary_writer.add_summary(s, global_step=e * batches_per_epoch + b)
                 print('\r[{:5d}/{:5d}] loss = {}'.format(b, batches_per_epoch, l), end='')
 
